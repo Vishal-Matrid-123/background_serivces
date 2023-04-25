@@ -1,0 +1,154 @@
+{
+  "project_info": {
+    "project_number": "602261305319",
+    "project_id": "the-one-staging-6",
+    "storage_bucket": "the-one-staging-6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602261305319:android:bb13c683f64b7caf0aef42",
+        "android_client_info": {
+          "package_name": "com.example.firebase_messaging_console"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfkZAScG8SSrM6XmWmvALFdGsEuLFOxlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602261305319-0n3n36crm3e0a3ik4meidkrrujs4vrca.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dev.theone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602261305319:android:5bc794843c9a03f50aef42",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfkZAScG8SSrM6XmWmvALFdGsEuLFOxlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602261305319-0n3n36crm3e0a3ik4meidkrrujs4vrca.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dev.theone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602261305319:android:d3d7d46fd547b0040aef42",
+        "android_client_info": {
+          "package_name": "com.example.untitled1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfkZAScG8SSrM6XmWmvALFdGsEuLFOxlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602261305319-0n3n36crm3e0a3ik4meidkrrujs4vrca.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dev.theone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602261305319:android:301004e380de17180aef42",
+        "android_client_info": {
+          "package_name": "com.theone.androidtheone.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfkZAScG8SSrM6XmWmvALFdGsEuLFOxlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602261305319-bv2vot05b2i4d4plqocne16ntop0sa1o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602261305319-0n3n36crm3e0a3ik4meidkrrujs4vrca.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dev.theone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

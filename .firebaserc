@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "the-one-staging-6",
+    "staging": "the-one-staging-6"
+  },
+  "targets": {},
+  "etags": {}
+}
