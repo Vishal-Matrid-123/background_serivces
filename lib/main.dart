@@ -102,7 +102,7 @@ void showFlutterNotification(RemoteMessage message) {
 void saveNotifications({required String notificationData}) async {
   try {
     final url =
-        Uri.parse('https://dev.theone.com/ApisSecondVer/AddNewNotification?');
+        Uri.parse('https://www.theone.com/ApisSecondVer/AddNewNotification?');
 
     final response = await post(url, body: {'notification': notificationData});
 
@@ -125,31 +125,31 @@ Future<void> setFireStoreData(
   print('Checking Notification');
   final reference =
       FirebaseFirestore.instance.collection('THE_One_Staging_Notifications');
-  String _imageUrlIOS = Platform.isIOS
-      ? await message.notification!.apple!.imageUrl ?? ''
-      : await message.notification!.android!.imageUrl ?? '';
+  String imageUrlIOS = Platform.isIOS
+      ? message.notification!.apple!.imageUrl ?? ''
+      : message.notification!.android!.imageUrl ?? '';
 
-  String _notificationDesc = message.notification?.body ?? '';
-  String _notificationTitle = message.notification?.title ?? '';
+  String notificationDesc = message.notification?.body ?? '';
+  String notificationTitle = message.notification?.title ?? '';
 
   bool isAlreadyExisted = false;
-  QuerySnapshot _query = await reference
+  QuerySnapshot query = await reference
       .where('Title', isEqualTo: message.notification!.title)
       .get();
-  if (_query.docs.length > 0) {
+  if (query.docs.length > 0) {
     List<QueryDocumentSnapshot<Map<String, dynamic>>> list =
-        _query.docs as List<QueryDocumentSnapshot<Map<String, dynamic>>>;
+        query.docs as List<QueryDocumentSnapshot<Map<String, dynamic>>>;
 
     for (QueryDocumentSnapshot<Map<String, dynamic>> element in list) {
-      String _title = element['Title'];
-      String _desc = element['Desc'];
+      String title = element['Title'];
+      String desc = element['Desc'];
       Timestamp time = element['Time'];
       print('Time Difference Id>>>>' +
           DateTime.now().difference(time.toDate()).inHours.toString());
 
-      if (_title.toLowerCase().contains(_notificationTitle.toLowerCase()) &&
+      if (title.toLowerCase().contains(notificationTitle.toLowerCase()) &&
           DateTime.now().difference(time.toDate()).inHours < 6 &&
-          _desc.toLowerCase().contains(_notificationDesc.toLowerCase())) {
+          desc.toLowerCase().contains(notificationDesc.toLowerCase())) {
         isAlreadyExisted = true;
 
         print('Existed');
@@ -167,7 +167,7 @@ Future<void> setFireStoreData(
     'Desc': message.notification!.body,
     'Time': Timestamp.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch),
-    'Image': _imageUrlIOS
+    'Image': imageUrlIOS
   };
 
   if (isAlreadyExisted == true) {
@@ -187,18 +187,22 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
 
   await initializeService();
-  FlutterBackgroundService().invoke("setAsBackground");
+  FlutterBackgroundService().invoke('setAsBackground');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessageOpenedApp
       .listen(_firebaseMessagingBackgroundHandler);
 
   await FirebaseMessaging.instance.requestPermission();
-  await FirebaseMessaging.instance
-      .getToken(vapidKey: 'AIzaSyDfkZAScG8SSrM6XmWmvALFdGsEuLFOxlA')
-      .then((value) => print('Fcm Token${value!}'));
+  String token = await FirebaseMessaging.instance
+          .getToken(vapidKey: 'AIzaSyBoMLFhJ8ir_pT57X1qFtmYSS-CQQzoXuE') ??
+      '';
 
-  runApp(const MyApp());
+  runApp(
+    MyApp(
+      fcmToken: token,
+    ),
+  );
 }
 
 Future<void> initializeService() async {
@@ -285,7 +289,7 @@ void onStart(ServiceInstance service) async {
   // We have to register the plugin manually
 
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.setString("hello", "world");
+  await preferences.setString('hello', 'world');
 
   /// OPTIONAL when use custom notification
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -311,12 +315,9 @@ void onStart(ServiceInstance service) async {
           _firebaseMessagingBackgroundHandler);
       FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
     } else {
-
-
       FirebaseMessaging.onBackgroundMessage(
           _firebaseMessagingBackgroundHandler);
       FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
-
     }
   }
   // bring to foreground
@@ -324,8 +325,6 @@ void onStart(ServiceInstance service) async {
     FirebaseMessaging.onMessage.listen((event) {
       _firebaseMessagingBackgroundHandler(event);
     });
-
-
 
     // test using external plugin
     final deviceInfo = DeviceInfoPlugin();
@@ -343,14 +342,15 @@ void onStart(ServiceInstance service) async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key, required this.fcmToken}) : super(key: key);
+  final String fcmToken;
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  String text = "Stop Service";
+  String text = 'Stop Service';
 
   @override
   void didChangeDependencies() {
@@ -360,6 +360,8 @@ class _MyAppState extends State<MyApp> {
     super.didChangeDependencies();
   }
 
+  Future <List<Map<String, dynamic>>> _data = returnNotifications();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -367,12 +369,36 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Service App'),
         ),
-        body: Column(
-          children: const [],
-        ),
+        body: FutureBuilder<List<Map<String, dynamic>>>(
+            future: _data,
+            builder: (context, snapshot) {
+              return snapshot.hasData && snapshot.data != null
+                  ? ListView(children: [
+                      TextButton(
+                          onPressed: () {
+                           _data =  returnNotifications();
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Refresh Future Builder'),
+                          )),
+                      SelectableText(widget.fcmToken),
+                      ...List.generate(
+                          snapshot.data!.length,
+                          (index) => Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(snapshot.data![index]['Title']),
+                              )),
+                    ])
+                  : snapshot.hasError
+                      ? Center(
+                          child: Text(snapshot.error.toString()),
+                        )
+                      : const Center(child: CircularProgressIndicator());
+            }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            FlutterBackgroundService().invoke("setAsBackground");
+            FlutterBackgroundService().invoke('setAsBackground');
           },
           child: const Icon(Icons.play_arrow),
         ),
@@ -421,4 +447,15 @@ class _LogViewState extends State<LogView> {
       },
     );
   }
+}
+
+Future<List<Map<String, dynamic>>> returnNotifications() async {
+  String url = 'https://www.theone.com/ApisSecondVer/GetAllNotification';
+  final uri = Uri.parse(url);
+  final response = await get(uri);
+  return returnMappedList(data: jsonDecode(response.body)['ResponseData']);
+}
+
+List<Map<String, dynamic>> returnMappedList({required List<dynamic> data}) {
+  return List<Map<String, dynamic>>.from(data.map((e) => e));
 }
